@@ -41,19 +41,28 @@ def main():
  # Keep track of version number for Data directory
  version="v04.01"
 
- # First things first: check if user has a "Data" directory, quit with helpful message if they don't
- if not os.path.isdir("Data"):
-    print("\nERROR ERROR ERROR\n")
-    print("'Data' directory not found")
-    print("If on Yellowstone or Cheyenne, link /glade/p/wrf/Data into your WTF directory")
-    print("If you do not have access to Yellowstone or Cheyenne, you can download the data from http://www2.mmm.ucar.edu/wrf/tmp/data_"+version+".tar")
-    sys.exit("\nExiting script")
- elif not os.path.isfile("Data/" + version):
-    print("\nERROR ERROR ERROR\n")
-    print("Your 'Data' directory is too old to work with this version of the WTF. You need version " + version)
-    print("If on Yellowstone or Cheyenne, link /glade/p/wrf/Data into your WTF directory")
-    print("If you do not have access to Yellowstone or Cheyenne, you can download the data from http://www2.mmm.ucar.edu/wrf/tmp/data_"+version+".tar")
-    sys.exit("\nExiting script")
+ system = os.popen("uname").read().strip()
+ if(system[0:6]=="Darwin"):  # ---------- this is a mac ----------------------------------------------
+  if not os.path.isdir("Data"):
+     print("\nERROR ERROR ERROR\n")
+     print("'Data' directory not found")
+     print("You need to create a symlink to your planetWRF_data directory and call it Data, e.g., ln -s ~/planetWRF_data Data")
+     sys.exit("\nExiting script")
+
+ else:  # original Cheyenne stuff
+  # First things first: check if user has a "Data" directory, quit with helpful message if they don't
+  if not os.path.isdir("Data"):
+     print("\nERROR ERROR ERROR\n")
+     print("'Data' directory not found")
+     print("If on Yellowstone or Cheyenne, link /glade/p/wrf/Data into your WTF directory")
+     print("If you do not have access to Yellowstone or Cheyenne, you can download the data from http://www2.mmm.ucar.edu/wrf/tmp/data_"+version+".tar")
+     sys.exit("\nExiting script")
+  elif not os.path.isfile("Data/" + version):
+     print("\nERROR ERROR ERROR\n")
+     print("Your 'Data' directory is too old to work with this version of the WTF. You need version " + version)
+     print("If on Yellowstone or Cheyenne, link /glade/p/wrf/Data into your WTF directory")
+     print("If you do not have access to Yellowstone or Cheyenne, you can download the data from http://www2.mmm.ucar.edu/wrf/tmp/data_"+version+".tar")
+     sys.exit("\nExiting script")
 
  tardir = "tarballs"
  builddir = "Builds"
