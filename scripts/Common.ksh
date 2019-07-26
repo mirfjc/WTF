@@ -78,7 +78,7 @@ getPreprocessorName()
          em_real|em_real8|em_move|em_chem|em_chem_kpp|wrfplus)
                    PREPROCESSOR='real.exe' 
 		   ;;
-         em_b_wave|em_quarter_ss|em_quarter_ss8|em_hill2d_x|em_fire)
+         em_b_wave|em_quarter_ss|em_quarter_ss8|em_hill2d_x|em_fire|em_global_mars|em_global_titan|em_global_pluto|em_les_p)
                    PREPROCESSOR='ideal.exe' 
 		   ;;
          nmm_real|nmm_nest|nmm_hwrf)
@@ -345,9 +345,11 @@ wipeUserBuildVars()
     unset WRF_HYDRO
     unset WRF_KPP 
     unset WRF_DFI_RADAR
-    unset WRF_TITAN
-    unset WRF_MARS
+    unset WRF_PLANET
     unset WRF_VENUS
+    unset WRF_MARS
+    unset WRF_TITAN
+    unset WRF_PLUTO
     unset WRFPLUS_DIR
     unset WRF_QUIETLY
     unset WRF_LOG_BUFFERING
@@ -560,6 +562,12 @@ getTypeCode()
       wrfda_4dvar)    typeCode='4d'
                       ;;
       em_fire)        typeCode='ef'
+                      ;;
+      em_heldsuarez)  typeCode='hs'
+                      ;;
+      em_global_mars) typeCode='ma'
+                      ;;
+      em_global_titan) typeCode='ti'
                       ;;
 
                   *)  echo $0:getTypeCode:  unknown wrfType $wrfType

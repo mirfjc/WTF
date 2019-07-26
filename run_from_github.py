@@ -14,14 +14,13 @@
 #         November 2016: Added command-line arguments for url and branch
 #
 
-
+from __future__ import print_function
 import os
 import re
 import sys
 import shutil
 import tarfile
 import subprocess
-
 
 def usage(exit_code=0): #If no exit code is specified, this indicates successful execution, so return exit code "0" per convention
 
@@ -40,6 +39,18 @@ def main():
 
  # Keep track of version number for Data directory
  version="v04.01"
+
+ # model type
+ model_type="planetWRF"
+
+ if(model_type == "planetWRF"):
+     default_url = "https://github.com/AeolisResearch/planetWRF"
+     default_branch = "dev"
+ else:
+     default_url = "https://github.com/wrf-model/WRF"
+     default_branch = "master"
+
+ print("This script has been setup for ",model_type," - if you want standard WRF, you've probably pulled the wrong WRF branch")
 
  system = os.popen("uname").read().strip()
  if(system[0:6]=="Darwin"):  # ---------- this is a mac ----------------------------------------------
@@ -115,11 +126,13 @@ def main():
 
 
  if url is None:
-    url = raw_input('\nEnter github URL (leave blank for https://github.com/wrf-model/WRF): ')
+    input_text_prompt = '\nEnter github URL (leave blank for '+default_url+'): '
+    url = raw_input(input_text_prompt)
     url = url.strip()
 
  if branch is None:
-    branch = raw_input('Enter branch name (leave blank for master): ')
+    input_text_prompt = 'Enter branch name (leave blank for '+default_branch+'): '
+    branch = raw_input(input_text_prompt)
     branch = branch.strip()
 
  spaces = re.compile(r'\s')
@@ -134,7 +147,7 @@ def main():
     print("The URL you typed appears to be a direct link to a branch rather than the top-level URL of a repository. \nYour URL should probably be in the format 'https://github.com/username/WRF/'.")
     sys.exit(4)
  if not url:
-    url = "https://github.com/wrf-model/WRF"
+    url = default_url
 
  #In the future we hope to run tests from multiple forks, so we should disambiguate the tar files by adding the fork name
  urlsplit = url.split("/")
@@ -145,12 +158,12 @@ def main():
     fork = urlsplitagain[1]
 
  if not branch:
-    branch = "master"
+    branch = default_branch
 
- print "Repository URL is %s." % url
+ print("Repository URL is %s." % url)
  if "wrf-model" not in fork:
-    print "Fork is %s." % fork
- print "Branch name is %s." % branch
+    print("Fork is %s." % fork)
+ print("Branch name is %s." % branch)
  
  os.chdir(tardir)
 

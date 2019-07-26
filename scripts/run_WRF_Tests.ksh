@@ -39,7 +39,11 @@ getTestRootDir()
    echo $rootDir
 }
 
-
+getSystem()
+{
+   system=`uname`
+   echo $system
+}
 
 
 ##
